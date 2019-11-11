@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <sys/time.h>
 
 #include "multitest.h"
 
@@ -19,6 +22,7 @@ int* initializeRandomList()
 
 /*
  * creates a new array of random data if no data
+ * saved in variable: data
  * otherwise, scambles the random data
  */
 int* getNewRandom(int newLength)
@@ -42,4 +46,37 @@ int* getNewRandom(int newLength)
 		data[pos1] = val0;
 	}
 	return data;
+}
+
+//Single process/thread search with 50 items
+double test0()
+{
+	getNewRandom(50); //create array
+
+	struct timeval start, end;
+	gettimeofday(&start, 0);
+	
+	search(data, 1, 1); //search array
+	
+	gettimeofday(&end, 0);
+	double elapsed = (double)(end.tv_usec - start.tv_usec)/1000000 + (double)(end.tv_sec - start.tv_sec);
+
+	return elapsed;
+}
+
+int main(int argc, char* argv)
+{
+	int i = 0;
+	while (i < argc) {
+		printf("%s\n", argv[i++]);
+	}
+
+	double test0time = 0;
+	i = 0;
+	while (i < 100) {
+		test0time += test0();
+	}
+	printf("Average time taken for test0: %f\n", test0time/100);
+
+	return 1;
 }
