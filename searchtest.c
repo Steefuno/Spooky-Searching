@@ -16,8 +16,24 @@ int* data = NULL;
  */
 int* initializeRandomList()
 {
+	data  = malloc(length *sizeof(int));
+	int i = 0;
+	while(i<length){
+		array[i] = i;
+		i++; 
+	}
+	
+	i=0;
+	while (i < length) {
+		int pos0 = (rand() % length); //assumes length < MAX_RAND
+		int pos1 = (rand() % length);
+		int val0 = data[pos0];
+		data[pos0] = data[pos1];
+		data[pos1] = val0;
+		i++;
+	}
 
-	return NULL;
+	return data;
 }
 
 /*
@@ -44,6 +60,7 @@ int* getNewRandom(int newLength)
 		int val0 = data[pos0];
 		data[pos0] = data[pos1];
 		data[pos1] = val0;
+		i++;
 	}
 	return data;
 }
