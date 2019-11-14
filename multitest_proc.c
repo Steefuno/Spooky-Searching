@@ -9,40 +9,40 @@ int search(int* data, int value, int numProcesses)
 	int size = sizeof(data)/sizeof(data[0]);		
 
 	int i =0;
-	int value;
+	int valueResult;
 	int start;
 	int end; 
 	
-	int sizeEachArr = size/numProccesses;	
+	int sizeEachArr = size/numProcesses;	
 
 	//fork all the processes
-	while (i< numProccesses){
+	while (i< numProcesses){
 		i++; 
 		fork();
 	
 		//use pid
 		//figure out start and ending indices using the value of i and search
 		
-		if(size % numProccesses!=0 && i==numProccesses){
+		if(size % numProcesses!=0 && i==numProcesses){
 			//array cannot be divided evenly 		
 			//split up the last portion of the array here
 			
 			start = i*sizeEachArr+1; 
 			end = start + sizeEachArr + (size - (start+sizeEachArr));
 	
-			value = search(data,start,end);
+			valueResult = search(data,start,end);
 			}
 		else{
 			if (i==1){
 				start =0;
 				end = start + sizeEachArr; 
-				value = search(data,start,end);
+				valueResult = search(data,start,end);
 			}
 			
 			else{
 				start = i*sizeEachArr + 1;
 				end = start+sizeEachArr;
-				value = search(data,start,end);
+				valueResult = search(data,start,end);
 
 				}
 
