@@ -35,7 +35,8 @@ int search(int* data, int value, int numProcesses)
 		else{
 			if (i==1){
 				start =0;
-				end = start + sizeEachArr;  
+				end = start + sizeEachArr; 
+				value = search(data,start,end);
 			}
 			
 			else{
