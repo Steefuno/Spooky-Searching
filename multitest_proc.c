@@ -6,102 +6,67 @@
 int search(int* data, int size, int value, int numProcesses){
 
 	
-	//have to make sure the array is only split up into sizes of no more than 250 elements
-
-	int i =0;
-	int valueResult;
-	int start;
+	int start=0;
 	int end;
-	int rc; 	
-			
-	//int sizeEachArr = size/numProcesses;	
-	int sizeEachArr = 2;
-	//fork all the processes
-	while (i< numProcesses){
-		i++; 
-//		if (fork()==0){
-		
-		//use pid
-		//figure out start and ending indices using the value of i and search
-		
-		if(size % numProcesses!=0 && i==numProcesses){
-			//array cannot be divided evenly 		
-			//split up the last portion of the array here
-			
-			start = i*sizeEachArr+1; 
-			end = start + sizeEachArr + (size - (start+sizeEachArr));	
-		
-			valueResult = search(data,start,end, value);
-				printf("%d\n", valueResult);	
-			//	exit(0);	
-		}
-		else{
-			if (i==1){
-				start =0;
-				end = start + sizeEachArr; 
-				valueResult = search(data,start,end, value);
-			
-				printf("%d\n", valueResult);
-			//	exit(0);
+	int i;
+	int pid;
+	int value2;
 
-				}
-			
-			else{
-				start = i*sizeEachArr + 1;
-				end = start+sizeEachArr;
-			
+	int sizeEachArr = size/numProcesses;	
+
+	for (i = 0; i<numProcesses; i++){
+		pid = fork();
 		
-				valueResult = search(data,start,end, value);
-					printf("%d\n", valueResult);
-			//		exit(0);
-				}
+		if (pid<0){
+			printf("Fork Error");
+			exit(1);
 			}
-		
-		
-//		 }
-	} 
-			//	if (rc>0){
-/*			while(i>0){
-				int status;
-				wait(&status);
-					
-				i--;
+			
+		//else if it is a child	 
+		else if (pid == 0){
+	
+				start = i*sizeEachArr;
+				end =start + sizeEachArr-1;
+				//printf("The value of i is: %d, Start is: %d, End is: %d\n",i,start, end);
+				value2 = searchArray(data, start,end, value); 
+				printf("The possible index is: %d\n", value2);
+				exit(0);
+			
 			}
-	
-*/	
-	
-		//use system macros of wait()
-		//extract lower 8 bits... to see if child found the value
-	
+		}	
+		
+	int x; 	
+	for (x =0; x<numProcesses; x++){
+		
+		wait(NULL);
+		}
 	return 0;
 
 } 
 
 //iterative search function
 int searchArray(int* data, int start, int end, int value){
-	while(start<end){
-		if(data[start] == value){
-			return start;	
-			}
-			
-		start++;
-		}		
-	
-	if (start == end){
-		return -1; 
+	int i;
+	for (i = start; i <= end; i++){
+		if (data[i] == value)
+			return i;
 		}
+	return -1;
+		
 
 }
 
+//main function just for testing
 int main (){
 	
 	int array[6] = {1,2,3,4,5,6};
 	
-	search(array, 6, 3, 3); 
-	
-	
+	search(array, 6,3, 2); 
 
-return 0; 
+	//int variable = searchArray(array,0,2,3);
+	//printf("%d", variable);	
+
+	return 0; 
 }
 
 
