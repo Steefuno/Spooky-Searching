@@ -30,7 +30,7 @@ int search(int* data, int size, int value, int numProcesses){
 		else if (pid == 0){	
 					printf("searching iteration:%d\n", i); 
 					start = i*sizeEachArr;	
-					end =start + sizeEachArr-1;
+					end =(i + 1) *sizeEachArr;
 					printf("The value of i is: %d, Start is: %d, End is: %d\n",i,start, end);
 					value2 = searchArray(data, start,end, value); 
 					printf("The possible index is: %d\n", value2);
@@ -63,9 +63,9 @@ int searchArray(int* data, int start, int end, int value){
 //main function just for testing
 int main (){
 	
-	int array[8] = {1,2,3,4,5,6,7,8};
+	int array[7] = {1,2,3,4,5,6,7};
 	
-	search(array, 8,7, 4); 
+	search(array, 7,7, 2); 
 
 	//int variable = searchArray(array,0,2,3);
 	//printf("%d", variable);	
