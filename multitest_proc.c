@@ -14,6 +14,10 @@ int search(int* data, int size, int value, int numProcesses){
 
 	int sizeEachArr = size/numProcesses;	
 
+	if(sizeEachArr > 250){
+		printf("Error: array partitions too large. Increase process count. ");
+		}
+	
 	for (i = 0; i<numProcesses; i++){
 		pid = fork();
 		
@@ -24,14 +28,31 @@ int search(int* data, int size, int value, int numProcesses){
 			
 		//else if it is a child	 
 		else if (pid == 0){
-	
-				start = i*sizeEachArr;
-				end =start + sizeEachArr-1;
-				//printf("The value of i is: %d, Start is: %d, End is: %d\n",i,start, end);
-				value2 = searchArray(data, start,end, value); 
-				printf("The possible index is: %d\n", value2);
-				exit(0);
-			
+		/*
+				if (i = numProcesses - 1 && size % numProcesses!= 0){
+					start = i*sizeEachArr;
+					end = size - 1;  
+					value2 = searchArray(data, start,end, value); 
+					printf("The possible index is: %d\n", value2);
+					exit(0);
+
+				}
+				*/		
+				
+			//	else{
+					start = i*sizeEachArr;
+					
+					if (i = numProcesses - 1 && size % numProcesses!= 0){
+						end = size -1; 
+					}
+					else {
+					end =start + sizeEachArr-1;
+					}
+					printf("The value of i is: %d, Start is: %d, End is: %d\n",i,start, end);
+					value2 = searchArray(data, start,end, value); 
+					printf("The possible index is: %d\n", value2);
+					exit(0);
+			//	}
 			}
 		}	
 		
