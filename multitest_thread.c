@@ -22,6 +22,7 @@ void* scanAt(void* args)
 
 int search(int* data, int size, int value, int numThreads)
 {
+	printf("Searching with threads");
 	searchData = data;
 	target = value;
 

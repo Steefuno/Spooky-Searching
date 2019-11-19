@@ -73,7 +73,7 @@ double test0()
 	struct timeval start, end;
 	gettimeofday(&start, 0);
 	
-	search(data, 1, 1); //search array
+	search(data,50,0,1); //search array
 	
 	gettimeofday(&end, 0);
 	double elapsed = (double)(end.tv_usec - start.tv_usec)/1000000 + (double)(end.tv_sec - start.tv_sec);
@@ -82,8 +82,11 @@ double test0()
 }
 
 int main(int argc, char* argv)
-{
+{	
 	int i = 0;
+	double  min;
+	double max;
+	double stdev;
 	while (i < argc) {
 		printf("%s\n", argv[i++]);
 	}
@@ -94,6 +97,8 @@ int main(int argc, char* argv)
 		test0time += test0();
 	}
 	printf("Average time taken for test0: %f\n", test0time/100);
-
+	printf("Min time taken for test0: %f\n", );
+	printf("Max time taken for test0: %f\n", );
+	printf("Standard deviation for test0: %f\n", );
 	return 1;
 }

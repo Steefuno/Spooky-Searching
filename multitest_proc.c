@@ -5,21 +5,24 @@
 #include <sys/wait.h>
 int search(int* data, int size, int value, int numProcesses){
 
-	
+	printf("Search using processes\n");
 	int start=0;
 	int end;
 	int i;
 	int pid;
 	int value2;
+	pid_t rc_pid[numProcesses];
 
 	int sizeEachArr = size/numProcesses;	
 
 	if(sizeEachArr > 250){
 		printf("Error: array partitions too large. Increase process count. ");
+		return; 
 		}
 	
 	for (i = 0; i<numProcesses; i++){
 		pid = fork();
+		rc_pid[i] = (pid_t)pid;
 			
 		if (pid<0){
 			printf("Fork Error");
@@ -31,21 +34,22 @@ int search(int* data, int size, int value, int numProcesses){
 					printf("searching iteration:%d\n", i); 
 					start = i*sizeEachArr;	
 					end =(i + 1) *sizeEachArr;
-					printf("The value of i is: %d, Start is: %d, End is: %d\n",i,start, end);
+					//printf("The value of i is: %d, Start is: %d, End is: %d\n",i,start, end);
 					value2 = searchArray(data, start,end, value); 
-					printf("The possible index is: %d\n", value2);
-					exit(0);
-			
+					//if (value2>-1){printf("Value found at index: %d\n", value2); }
+					exit(value2);
 			}
-		}	
+		}
+	if(pid>0){	
 		
-	int x; 	
-	for (x =0; x<numProcesses; x++){
+		int x; 	
+		int status;
+		for (x =0; x<numProcesses; x++){
+		waitpid(rc_pid[i],&status,0);
+			}
 		
-		wait(NULL);
 		}
 	return 0;
-
 } 
 
 //iterative search function
@@ -56,22 +60,5 @@ int searchArray(int* data, int start, int end, int value){
 			return i;
 		}
 	return -1;
-		
-
 }
-
-//main function just for testing
-int main (){
-	
-	int array[7] = {1,2,3,4,5,6,7};
-	
-	search(array, 7,7, 2); 
-
-	//int variable = searchArray(array,0,2,3);
-	//printf("%d", variable);	
-
-	return 0; 
-}
-
-
  
