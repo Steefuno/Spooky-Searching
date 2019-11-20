@@ -19,7 +19,7 @@ int* initializeRandomList()
 	data  = malloc(length *sizeof(int));
 	int i = 0;
 	while(i<length){
-		array[i] = i;
+		data[i] = i;
 		i++; 
 	}
 	
@@ -97,8 +97,8 @@ int main(int argc, char* argv)
 		test0time += test0();
 	}
 	printf("Average time taken for test0: %f\n", test0time/100);
-	printf("Min time taken for test0: %f\n", );
-	printf("Max time taken for test0: %f\n", );
-	printf("Standard deviation for test0: %f\n", );
+	printf("Min time taken for test0: %f\n", min);
+	printf("Max time taken for test0: %f\n", max);
+	printf("Standard deviation for test0: %f\n",stdev);
 	return 1;
 }

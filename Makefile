@@ -2,7 +2,7 @@ a.out: searchtest.c
 	$(error "Did not specify what library to use! Either 'proc' or 'thread' ")
 
 proc: searchtest.c multitest_proc.o
-	gcc seachtest.c multitest_proc.o
+	gcc searchtest.c multitest_proc.o
 
 thread: searchtest.c multitest_thread.o
 	gcc searchtest.c multitest_thread.o
