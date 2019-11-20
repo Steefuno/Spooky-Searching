@@ -140,6 +140,26 @@ int main(int argc, char* argv)
 	int procs;
 	while (n < 13) {
 		size = pow(2, n); //Size of array is 2^n
+		m = 1;
+		while (m < 5) { //# of procs is m
+			i = 0;
+			procs = m;
+			if (procs > size) break;
+
+			//for 100 times, get time of size "size" array with "procs" procs
+			printf("\naSize %d, Procs %d\n", size, procs);
+			while (i < numTests) {
+				t = test(size, procs);
+
+				total0 += t;
+				total1 += t*t;
+				if (t < min || min == -1) min = t;
+				if (t > max) max = t;
+				++i;
+			}
+			outputResults(&total0, &total1, numTests, &max, &min);
+			++m;
+		}
 		m = 2;
 		while (m < 14) {
 			i = 0;
