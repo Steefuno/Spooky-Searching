@@ -66,14 +66,14 @@ int* getNewRandom(int newLength)
 }
 
 //Single process/thread search with 50 items
-double test0()
+double test(int size, int numThreads)
 {
-	getNewRandom(50); //create array
+	getNewRandom(size); //create array
 
 	struct timeval start, end;
 	gettimeofday(&start, 0);
 	
-	search(data,50,0,1); //search array
+	search(data,size,0,numThreads); //search array
 	
 	gettimeofday(&end, 0);
 	double elapsed = (double)(end.tv_usec - start.tv_usec)/1000000 + (double)(end.tv_sec - start.tv_sec);
@@ -81,24 +81,89 @@ double test0()
 	return elapsed;
 }
 
+void outputResults(double* total0, double* total1, int numTests, double* max, double* min)
+{
+	double average = *total0/numTests;
+	double std = sqrt(*total1/numTests);
+	
+	printf("\tAverage time is %f\n", average);
+	printf("\tStandard deviation is %f\n", std);
+	printf("\tMax time is %f\n\tMin time is %f\n", *max, *min);
+
+	*total0 = 0;
+	*total1 = 0;
+	*max = 0;
+	*min = -1;
+	return;
+}
+
 int main(int argc, char* argv)
 {	
+	int numTests = 100;
+
 	int i = 0;
-	double  min;
-	double max;
-	double stdev;
-	while (i < argc) {
-		printf("%s\n", argv[i++]);
+	double min = -1;
+	double max = 0;
+	double total0 = 0;
+	double total1 = 0;
+	double t;
+
+	printf("\naSize 50, Procs 1\n"); //for 100 times, get time of size 50 array with 1 proc
+	while (i < numTests) {
+		t = test(50, 1);
+
+		total0 += t;
+		total1 += t*t;
+		if (t < min || min == -1) min = t;
+		if (t > max) max = t;
+
+		++i;
+	}
+	outputResults(&total0, &total1, numTests, &max, &min);
+
+	i = 0;
+	printf("\naSize 2, Procs 2\n"); //for 100 times , get time of size 2 array with 2 procs
+	while (i < numTests) {
+		t = test(2, 2);
+
+		total0 += t;
+		total1 += t*t;
+		if (t < min || min == -1) min = t;
+		if (t > max) max = t;
+		++i;
+	}
+	outputResults(&total0, &total1, numTests, &max, &min);
+
+	int n = 2;
+	int size;
+	int m;
+	int procs;
+	while (n < 13) {
+		size = pow(2, n); //Size of array is 2^n
+		m = 2;
+		while (m < 14) {
+			i = 0;
+			procs = m*m; //# of procs is m^2
+			if (procs > size) break;
+
+			//for 100 times, get time of size "size" array with "procs" procs
+			printf("\naSize %d, Procs %d\n", size, procs);
+			while (i < numTests) {
+				t = test(size, procs);
+
+				total0 += t;
+				total1 += t*t;
+				if (t < min || min == -1) min = t;
+				if (t > max) max = t;
+				++i;
+			}
+			outputResults(&total0, &total1, numTests, &max, &min);
+
+			++m;
+		}
+
+		++n;
 	}
 
-	double test0time = 0;
-	i = 0;
-	while (i < 100) {
-		test0time += test0();
-	}
-	printf("Average time taken for test0: %f\n", test0time/100);
-	printf("Min time taken for test0: %f\n", min);
-	printf("Max time taken for test0: %f\n", max);
-	printf("Standard deviation for test0: %f\n",stdev);
 	return 1;
 }
