@@ -20,7 +20,7 @@ int search(int* data, int size, int value, int numProcesses){
 	if(sizeEachArr > 250){
 		printf("Error: array partitions too large. Increase process count. ");
 		return; 
-		}
+	}
 	
 	for (i = 0; i<numProcesses; i++){
 		pid = fork();
@@ -47,10 +47,10 @@ int search(int* data, int size, int value, int numProcesses){
 		int x; 	
 		int status;
 		for (x =0; x<numProcesses; x++){
-		waitpid(rc_pid[i],&status,0);
-			}
-		
+			waitpid(rc_pid[x],&status,0);
 		}
+		
+	}
 	return 0;
 } 
 
