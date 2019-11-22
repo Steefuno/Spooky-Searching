@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 int* searchData = NULL;
-char multimode[] = "thread";
+char* multimode = "thread";
 int result = -1;
 int target = -1;
 

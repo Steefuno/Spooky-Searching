@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-char multimode[] = "process";
+char* multimode = "process";
 
 int search(int* data, int size, int value, int numProcesses){
 	printf("Search using processes\n");
