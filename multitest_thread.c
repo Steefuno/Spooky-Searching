@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 int* searchData = NULL;
+char multimode[] = "thread";
 int result = -1;
 int target = -1;
 
@@ -22,7 +23,6 @@ void* scanAt(void* args)
 
 int search(int* data, int size, int value, int numThreads)
 {
-	printf("Searching with threads");
 	searchData = data;
 	target = value;
 

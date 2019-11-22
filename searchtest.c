@@ -108,6 +108,8 @@ int main(int argc, char* argv)
 	double total1 = 0;
 	double t;
 
+	printf("Testing on Multimode:\t-%s\n", multimode); //prints a variable from thread.c or proc.c
+
 	printf("\naSize 50, Procs 1\n"); //for 100 times, get time of size 50 array with 1 proc
 	while (i < numTests) {
 		t = test(50, 1);
